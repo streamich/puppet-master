@@ -34,7 +34,7 @@ const createBundle = async (entryFiles, options = {}) => {
   const bundle = await bundler.bundle();
   const result = await readFile(bundle.name, 'utf8');
 
-  return result;
+  return [result, bundle.entryAsset.id];
 };
 
 const createBrowserAndPage = async (browserOptions) => {
@@ -45,7 +45,7 @@ const createBrowserAndPage = async (browserOptions) => {
 };
 
 const defaultBrowserOptions = {
-  headless: false,
+  // headless: false,
 };
 
 const execute = async ({func, module, args = [], browserOptions = {}, parcelOptions = {}}) => {
@@ -55,17 +55,17 @@ const execute = async ({func, module, args = [], browserOptions = {}, parcelOpti
     parcelOptions.outFile = Buffer.from(modulePath).toString('base64');
   }
 
-  const [[browser, page], bundle] = await Promise.all([
+  const [[browser, page], [bundle, entryModuleName]] = await Promise.all([
     createBrowserAndPage({
       ...defaultBrowserOptions,
       ...browserOptions,
     }),
     createBundle(modulePath, parcelOptions),
   ]);
-  const code = `(${func.toString()})(${bundle}('module.js'));`;
+  const code = `(${func.toString()})(${bundle}('${entryModuleName}'),${JSON.stringify(args)})`;
   const result = await page.evaluate(code, ...args);
 
-  // await browser.close();
+  await browser.close();
 
   return result;
 };
