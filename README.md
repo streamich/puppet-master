@@ -1,19 +1,28 @@
 # puppet-master
 
-Execute Node.js module in Chrome.
+Import.
 
 ```js
 const {execute} = require('puppet-master');
-const func = ({add}, [a, b]) => add(a, b);
+```
 
-execute({
+Get Chrome `location.href`.
+
+```js
+await execute({func: () => window.location.href});
+// about:blank
+```
+
+Execute Node.js module in Chrome.
+
+```js
+const func = ({add}, [a, b]) => add(a, b);
+await execute({
   func,
   args: [1, 2],
   module: __dirname + '/module.js',
-})
-  .then(console.lo, console.log);
-
-// Prints: 3
+});
+// 3
 ```
 
 
