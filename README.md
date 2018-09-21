@@ -30,6 +30,10 @@ await execute(() => {
 Execute Node.js module in Chrome, also provide arguments:
 
 ```js
+// my-module.js
+export.add = (a, b) => a + b;
+
+// index.js
 const func = ({add}, [a, b]) => add(a, b);
 await execute({
   func,
