@@ -9,6 +9,7 @@
   "scripts": {
   },
   "dependencies": {
-    "puppeteer": "^1.8.0"
+    "puppeteer": "^1.8.0",
+    "parcel-bundler": "^1.9.7"
   }
 }

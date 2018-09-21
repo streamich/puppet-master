@@ -1,5 +1,8 @@
 const {execute} = require('.');
 
-const func = () => 2 + 2;
+const func = (module) => module.add(1, 1);
 
-execute({func}).then(console.log, console.error);
+execute({
+  func,
+  module: __dirname + '/module.js',
+}).then(console.log, console.error);

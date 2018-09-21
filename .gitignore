@@ -64,3 +64,5 @@ typings/
 lib/
 
 .DS_Store
+.cache
+.puppet-master
