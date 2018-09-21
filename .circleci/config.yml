@@ -41,6 +41,9 @@ jobs:
       - *Install
       - *Test
       - *Post_to_dev_null
+      - run
+          name: Release
+          command: yarn release
 
 workflows:
   version: 2
