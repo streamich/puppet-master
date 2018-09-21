@@ -13,4 +13,7 @@ execute({
   } else {
     console.log('Test passed!');
   }
-}, () => process.exit(1));
+}, (err) => {
+  console.error(err);
+  process.exit(1);
+});
