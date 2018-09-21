@@ -45,27 +45,60 @@ const createBrowserAndPage = async (browserOptions) => {
 };
 
 const defaultBrowserOptions = {
-  // headless: false,
 };
 
-const execute = async ({func, module, args = [], browserOptions = {}, parcelOptions = {}}) => {
-  const modulePath = path.resolve(module);
+const execute = async ({
+  func,
+  module,
+  args = [],
+  browserOptions = {},
+  parcelOptions = {},
+  debug,
+}) => {
+  let modulePath = '';
 
-  if (!parcelOptions.outFile) {
-    parcelOptions.outFile = Buffer.from(modulePath).toString('base64');
+  if (module) {
+    modulePath = path.resolve(module);
+    if (!parcelOptions.outFile) {
+      parcelOptions.outFile = Buffer.from(modulePath).toString('base64');
+    }
   }
 
-  const [[browser, page], [bundle, entryModuleName]] = await Promise.all([
-    createBrowserAndPage({
-      ...defaultBrowserOptions,
-      ...browserOptions,
-    }),
-    createBundle(modulePath, parcelOptions),
-  ]);
-  const code = `(${func.toString()})(${bundle}('${entryModuleName}'),${JSON.stringify(args)})`;
-  const result = await page.evaluate(code, ...args);
+  browserOptions = {
+    ...defaultBrowserOptions,
+    ...browserOptions,
+  };
 
-  await browser.close();
+  if (debug) {
+    browserOptions.headless = false;
+  }
+
+  let result, browser, page;
+
+  if (modulePath) {
+    const [puppet, [bundle, entryModuleName]] = await Promise.all([
+      createBrowserAndPage(browserOptions),
+      createBundle(modulePath, parcelOptions),
+    ]);
+
+    browser = puppet[0];
+    page = puppet[1];
+
+    const code = `(${func.toString()})(${bundle}('${entryModuleName}'),${JSON.stringify(args)})`;
+    result = await page.evaluate(code, ...args);
+  } else {
+    const puppet = await createBrowserAndPage(browserOptions);
+
+    browser = puppet[0];
+    page = puppet[1];
+
+    const code = `(${func.toString()})(null,${JSON.stringify(args)})`;
+    result = await page.evaluate(code, ...args);
+  }
+
+  if (!debug) {
+    await browser.close();
+  }
 
   return result;
 };
