@@ -1,12 +1,12 @@
 # puppet-master
 
-Import.
+Import:
 
 ```js
 const {execute} = require('puppet-master');
 ```
 
-Get Chrome `location.href`.
+Get Chrome `location.href` and interact with DOM APIs.
 
 ```js
 await execute({func: () => window.location.href});
