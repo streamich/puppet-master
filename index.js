@@ -45,27 +45,41 @@ const createBrowserAndPage = async (browserOptions) => {
 };
 
 const defaultBrowserOptions = {
-  // headless: false,
 };
 
-const execute = async ({func, module, args = [], browserOptions = {}, parcelOptions = {}}) => {
+const execute = async ({
+  func,
+  module,
+  args = [],
+  browserOptions = {},
+  parcelOptions = {},
+  debug,
+}) => {
   const modulePath = path.resolve(module);
 
   if (!parcelOptions.outFile) {
     parcelOptions.outFile = Buffer.from(modulePath).toString('base64');
   }
 
+  browserOptions = {
+    ...defaultBrowserOptions,
+    ...browserOptions,
+  };
+
+  if (debug) {
+    browserOptions.headless = false;
+  }
+
   const [[browser, page], [bundle, entryModuleName]] = await Promise.all([
-    createBrowserAndPage({
-      ...defaultBrowserOptions,
-      ...browserOptions,
-    }),
+    createBrowserAndPage(browserOptions),
     createBundle(modulePath, parcelOptions),
   ]);
   const code = `(${func.toString()})(${bundle}('${entryModuleName}'),${JSON.stringify(args)})`;
   const result = await page.evaluate(code, ...args);
 
-  await browser.close();
+  if (!debug) {
+    await browser.close();
+  }
 
   return result;
 };

@@ -17,6 +17,20 @@ execute({
 ```
 
 
+## Options
+
+```js
+await execute({
+  func, // Function to execute. It receives two arguments: module and args.
+  module: __dirname + '/module.js', // Path to module, which to evaluate and provide to function.
+  args: [1, 2], // Arguments to pass to the function ad the second argument.
+  browserOptions, // Puppeteer browser options.
+  parcelOptions, // Parcel options.
+  debug: false, // If true will open browser and not close it.
+});
+```
+
+
 ## License
 
 [Unlicense](./LICENSE) &mdash; public domain.
