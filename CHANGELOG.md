@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/streamich/puppet-master/compare/v1.1.0...v1.2.0) (2018-09-21)
+
+
+### Features
+
+* 🎸 allow single function argument ([82a009d](https://github.com/streamich/puppet-master/commit/82a009d))
+
 # [1.1.0](https://github.com/streamich/puppet-master/compare/v1.0.0...v1.1.0) (2018-09-21)
 
 
