@@ -47,14 +47,20 @@ const createBrowserAndPage = async (browserOptions) => {
 const defaultBrowserOptions = {
 };
 
-const execute = async ({
-  func,
-  module,
-  args = [],
-  browserOptions = {},
-  parcelOptions = {},
-  debug,
-}) => {
+const execute = async (opts) => {
+  if (typeof opts === 'function') {
+    opts = {func: opts};
+  }
+
+  let {
+    func,
+    module,
+    args = [],
+    browserOptions = {},
+    parcelOptions = {},
+    debug,
+  } = opts;
+
   let modulePath = '';
 
   if (module) {

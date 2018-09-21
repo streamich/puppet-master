@@ -9,18 +9,17 @@ const {execute} = require('puppet-master');
 Get Chrome `location.href` and interact with DOM APIs.
 
 ```js
-await execute({func: () => window.location.href});
+await execute(() => window.location.href);
 // about:blank
-await execute({
-  func: () => {
-    const div = document.createElement('div');
-    div.id = 'test';
-    div.innerHTML = 'Hello...';
-    document.body.appendChild(div);
-    const el = document.getElementById('test');
 
-    return el.innerHTML;
-  },
+await execute(() => {
+  const div = document.createElement('div');
+  div.id = 'test';
+  div.innerHTML = 'Hello...';
+  document.body.appendChild(div);
+  const el = document.getElementById('test');
+
+  return el.innerHTML;
 });
 // Hello...
 ```
