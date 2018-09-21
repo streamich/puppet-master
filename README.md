@@ -11,16 +11,28 @@ Get Chrome `location.href`.
 ```js
 await execute({func: () => window.location.href});
 // about:blank
+await execute({
+  func: () => {
+    const div = document.createElement('div');
+    div.id = 'test';
+    div.innerHTML = 'Hello...';
+    document.body.appendChild(div);
+    const el = document.getElementById('test');
+
+    return el.innerHTML;
+  },
+});
+// Hello...
 ```
 
-Execute Node.js module in Chrome.
+Execute Node.js module in Chrome, also provide arguments:
 
 ```js
 const func = ({add}, [a, b]) => add(a, b);
 await execute({
   func,
   args: [1, 2],
-  module: __dirname + '/module.js',
+  module: __dirname + '/my-module.js',
 });
 // 3
 ```
