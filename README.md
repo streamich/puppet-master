@@ -3,9 +3,15 @@
 Execute Node.js module in Chrome.
 
 ```js
-const {runInChrome} = require('puppet-master');
+const {execute} = require('puppet-master');
+const func = ({add}, [a, b]) => add(a, b);
 
-const func = (module) => module.add(2, 2);
+execute({
+  func,
+  args: [1, 2],
+  module: __dirname + '/module.js',
+})
+  .then(console.lo, console.log);
 
-runInChrome(func, __dirname + '/module.js');
+// Prints: 3
 ```
