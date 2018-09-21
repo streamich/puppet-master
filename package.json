@@ -1,0 +1,14 @@
+{
+  "name": "puppet-master",
+  "version": "0.0.0",
+  "files": [
+    "index.js",
+    "lib/"
+  ],
+  "repository": "https://github.com/streamich/puppet-master.git",
+  "scripts": {
+  },
+  "dependencies": {
+    "puppeteer": "^1.8.0"
+  }
+}

@@ -4,8 +4,8 @@ Execute Node.js module in Chrome.
 
 ```js
 const {runInChrome} = require('puppet-master');
+const func = module => module.add(2, 2);
 
-const func = (module) => module.add(2, 2);
-
-runInChrome(func, __dirname + '/module.js');
+runInChrome(func, __dirname + '/module.js')
+  .then(console.lo, console.log);
 ```
