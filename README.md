@@ -15,3 +15,8 @@ execute({
 
 // Prints: 3
 ```
+
+
+## License
+
+[Unlicense](./LICENSE) &mdash; public domain.
