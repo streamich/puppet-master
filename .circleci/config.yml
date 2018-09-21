@@ -41,7 +41,7 @@ jobs:
       - *Install
       - *Test
       - *Post_to_dev_null
-      - run
+      - run:
           name: Release
           command: yarn release
 
