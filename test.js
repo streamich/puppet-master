@@ -33,6 +33,20 @@ const test = async () => {
     return el.innerHTML;
   });
   deepStrictEqual(res, 'Hello...');
+
+  console.log(' 🎲  Allow async functions');
+  res = await execute(async () => {
+    await new Promise(r => setTimeout(r, 100));
+    return 'done';
+  });
+  deepStrictEqual(res, 'done');
+
+  console.log(' 🎲  Allow async functions');
+  res = await execute(async () => {
+    const response = await fetch('https://api.github.com/users/octocat');
+    return await response.json();
+  });
+  deepStrictEqual(res.login, 'octocat');
 };
 
 test().then(() => {}, console.error);

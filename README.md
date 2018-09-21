@@ -39,6 +39,15 @@ await execute({
 // 3
 ```
 
+Execute `fetch` from Chrome.
+
+```js
+await execute(async () => {
+  const response = await fetch('https://api.github.com/users/octocat');
+  return await response.json();
+});
+// { login: 'octocat', ...
+```
 
 ## Options
 
