@@ -1,6 +1,9 @@
 # puppet-master
 
-Import:
+- Execute Node.js code in Chrome using [`puppeteer`](https://github.com/GoogleChrome/puppeteer).
+- Bundles Node.js module into Chrome using [`parcel`](https://github.com/parcel-bundler/parcel).
+
+Import `execute` function.
 
 ```js
 const {execute} = require('puppet-master');
@@ -43,7 +46,7 @@ await execute({
 await execute({
   func, // Function to execute. It receives two arguments: module and args.
   module: __dirname + '/module.js', // Path to module, which to evaluate and provide to function.
-  args: [1, 2], // Arguments to pass to the function ad the second argument.
+  args: [1, 2], // Arguments to pass to the function as the second argument.
   browserOptions, // Puppeteer browser options.
   parcelOptions, // Parcel options.
   debug: false, // If true will open browser and not close it.

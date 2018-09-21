@@ -1,19 +1,38 @@
 const {execute} = require('.');
+const {deepStrictEqual} = require('assert');
 
-const func = ({add}, [a, b]) => add(a, b);
+const test = async () => {
+  let res;
 
-execute({
-  func,
-  args: [1, 2],
-  module: __dirname + '/module.js',
-}).then((res) => {
-  if (res !== 3) {
-    console.error('expected 3, received ' + res);
-    process.exit(1);
-  } else {
-    console.log('Test passed!');
-  }
-}, (err) => {
-  console.error(err);
-  process.exit(1);
-});
+  console.log(' 🎲  Can bundle module and arguments.');
+  const func = ({add}, [a, b]) => add(a, b);
+  res = await execute({
+    func,
+    args: [1, 2],
+    module: __dirname + '/module.js',
+  });
+  deepStrictEqual(res, 3);
+
+
+  console.log(' 🎲  Can execute a single function.');
+  res = await execute(() => 1 + 1);
+  deepStrictEqual(res, 2);
+
+
+  console.log(' 🎲  Can access DOM APIs 1');
+  res = await execute(() => window.location.href);
+  deepStrictEqual(res, 'about:blank');
+
+  console.log(' 🎲  Can access DOM APIs 2');
+  res = await execute(() => {
+    const div = document.createElement('div');
+    div.id = 'test';
+    div.innerHTML = 'Hello...';
+    document.body.appendChild(div);
+    const el = document.getElementById('test');
+    return el.innerHTML;
+  });
+  deepStrictEqual(res, 'Hello...');
+};
+
+test().then(() => {}, console.error);
